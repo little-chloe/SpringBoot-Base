@@ -34,7 +34,7 @@ public class SecurityConfig {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
                 return userRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException("Username Not Found Exception"));
+                        .orElseThrow(() -> new UsernameNotFoundException("Invalid email or password"));
             }
         };
     }
@@ -65,7 +65,7 @@ public class SecurityConfig {
                     return new UsernamePasswordAuthenticationToken(userEntity.getEmail(), userEntity.getPassword(),
                             userEntity.getAuthorities());
                 } else {
-                    throw new BadCredentialsException("Bad Credentials Exception");
+                    throw new BadCredentialsException("Invalid email or password");
                 }
             }
 

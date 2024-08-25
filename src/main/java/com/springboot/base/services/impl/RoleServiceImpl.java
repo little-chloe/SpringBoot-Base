@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     public CreateRoleResponseDTO create(CreateRoleRequestDTO createRoleRequestDTO) {
         Optional<RoleEntity> roleEntity = roleRepository.findByName(createRoleRequestDTO.getName().toLowerCase());
         if (roleEntity.isPresent()) {
-            throw new DataExistedException("Role %s existed".formatted(createRoleRequestDTO.getName()));
+            throw new DataExistedException("Role %s is already exists".formatted(createRoleRequestDTO.getName()));
         }
         roleRepository.save(RoleEntity.builder()
                 .uuid(UUID.randomUUID().toString())

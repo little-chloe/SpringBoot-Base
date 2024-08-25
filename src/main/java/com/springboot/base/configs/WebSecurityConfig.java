@@ -44,7 +44,8 @@ public class WebSecurityConfig {
                     }
                 }))
                 .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                        .ignoringRequestMatchers("/api/v1/users/login", "/api/v1/users/register")
+                        .ignoringRequestMatchers("/api/v1/users/login", "/api/v1/users/register",
+                                "/api/v1/users/refresh-access-token")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .requiresChannel(requiresChannel -> requiresChannel.anyRequest().requiresInsecure())
                 .addFilterAfter(csrfTokenCookieFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,7 +53,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/roles/**").hasRole("USER")
                         .requestMatchers("/api/v1/users/hello").authenticated()
-                        .requestMatchers("/api/v1/users/login", "/api/v1/users/register").permitAll());
+                        .requestMatchers("/api/v1/users/login", "/api/v1/users/register",
+                                "/api/v1/users/refresh-access-token")
+                        .permitAll());
         return httpSecurity.build();
     }
 }

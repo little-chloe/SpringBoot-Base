@@ -100,6 +100,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         if (request.getServletPath().equals("/api/v1/users/register")) {
             return true;
         }
+        if (request.getServletPath().equals("/api/v1/users/refresh-access-token")) {
+            return true;
+        }
         return false;
     }
 

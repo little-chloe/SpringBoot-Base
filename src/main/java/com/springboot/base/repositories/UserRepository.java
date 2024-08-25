@@ -10,4 +10,5 @@ import com.springboot.base.entities.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String>{
     Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByRefreshToken(String refreshToken);
 }

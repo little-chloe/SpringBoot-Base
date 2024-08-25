@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.base.dtos.requests.LoginRequestDTO;
+import com.springboot.base.dtos.requests.RefreshAccessTokenRequestDTO;
 import com.springboot.base.dtos.requests.RegisterRequestDTO;
 import com.springboot.base.dtos.responses.LoginResponseDTO;
+import com.springboot.base.dtos.responses.RefreshAccessTokenResponseDTO;
 import com.springboot.base.dtos.responses.RegisterResponseDTO;
 import com.springboot.base.services.UserService;
 
@@ -36,6 +38,15 @@ public class UserController {
         RegisterResponseDTO registerResponseDTO = userService.register(registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(registerResponseDTO);
+    }
+
+    @PostMapping("/refresh-access-token")
+    public ResponseEntity<RefreshAccessTokenResponseDTO> refreshAccessToken(
+            @Valid @RequestBody RefreshAccessTokenRequestDTO refreshAccessTokenRequestDTO) {
+        RefreshAccessTokenResponseDTO refreshAccessTokenResponseDTO = userService
+                .refreshAccessToken(refreshAccessTokenRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(refreshAccessTokenResponseDTO);
     }
 
     @GetMapping("/hello")
