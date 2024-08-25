@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: base
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_base
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+jwt:
+  secret: supersecret12345//supersecret12345
+  access-token:
+    expiration: 3600000
+  refresh-token:
+    expiration: 604800000
