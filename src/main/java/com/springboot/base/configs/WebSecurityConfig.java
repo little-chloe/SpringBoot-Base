@@ -8,12 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.springboot.base.filters.CsrfTokenCookieFilter;
 import com.springboot.base.filters.JwtTokenValidatorFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,8 +19,6 @@ import lombok.AllArgsConstructor;
 @Configuration
 @AllArgsConstructor
 public class WebSecurityConfig {
-
-    private final CsrfTokenCookieFilter csrfTokenCookieFilter;
 
     private final JwtTokenValidatorFilter jwtTokenValidatorFilter;
 
@@ -43,12 +38,8 @@ public class WebSecurityConfig {
                         return config;
                     }
                 }))
-                .csrf(csrf -> csrf.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                        .ignoringRequestMatchers("/api/v1/users/login", "/api/v1/users/register",
-                                "/api/v1/users/refresh-access-token")
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf(csrf -> csrf.disable())
                 .requiresChannel(requiresChannel -> requiresChannel.anyRequest().requiresInsecure())
-                .addFilterAfter(csrfTokenCookieFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/roles/**").hasRole("USER")
